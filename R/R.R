@@ -1,5 +1,3 @@
-setwd("U:\\Documents\\Workshops Spring 2023\\Repro")
-
 #Export tables
 attach(mtcars)
 #Data processing.
