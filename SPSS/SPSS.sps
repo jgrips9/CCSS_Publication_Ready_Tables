@@ -1,0 +1,36 @@
+﻿* Encoding: UTF-8.
+cd "\\rschfs1x\userrs\F-J\jrg363_rs\Downloads\SPSS".
+GET FILE "Breast cancer survival.sav".
+
+FREQUENCIES
+  VARIABLES=histgrad
+  /ORDER=  ANALYSIS .
+
+OUTPUT EXPORT    
+  /xls documentfile="./Output/histgrid table.xlsx"
+  sheet='Table 1' .
+
+output close all.
+
+DESCRIPTIVES VARIABLES=age
+  /STATISTICS=MEAN STDDEV MIN MAX.
+
+GRAPH
+  /HISTOGRAM=age.
+T-TEST
+  /TESTVAL=45
+  /MISSING=ANALYSIS
+  /VARIABLES=age
+  /ES DISPLAY(TRUE)
+  /CRITERIA=CI(.95).
+
+
+
+OUTPUT EXPORT
+  /CONTENTS  EXPORT=ALL  LAYERS=PRINTSETTING  MODELVIEWS=PRINTSETTING
+  /DOC  DOCUMENTFILE='./Output/log.doc'
+     NOTESCAPTIONS=YES  WIDETABLES=WRAP PAGEBREAKS=YES
+     PAGESIZE=INCHES(8.5, 11.0)  TOPMARGIN=INCHES(1.0)  BOTTOMMARGIN=INCHES(1.0)
+     LEFTMARGIN=INCHES(1.0)  RIGHTMARGIN=INCHES(1.0).
+
+output close all.

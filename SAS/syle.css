@@ -1,0 +1,38 @@
+.body {
+   background-color: #f0f9e8;
+}
+
+.systemtitle {
+   background-color: #43a2ca;
+   color: white;
+}
+
+.systemtitle2 {
+   background-color: white;
+}
+
+table {
+   background-color: white;
+}
+
+.header {
+   background-color: #a8ddb5;
+}
+
+[data-name="obs"] {
+   background-color: #7bccc4;
+   color: white;
+}
+
+.data {
+   background-color: #ccebc5;
+}
+
+[type="char"] {
+   color: #0868ac;
+   font-weight:bold;
+}
+
+[name="mpg_city"] {
+background-color: lightyellow;
+}

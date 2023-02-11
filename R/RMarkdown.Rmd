@@ -1,0 +1,76 @@
+---
+title: "Replication_sample"
+author: "Jacob Grippin"
+date: "1/14/2020"
+output:
+  html_document:
+    df_print: paged
+  pdf_document: default
+  word_document: default
+---
+## Introdouction
+```{r preparations, include=FALSE}
+#Easier reference variable names in mtcars dataset
+library(glue, lib.loc = "U:\\Documents\\Workshops Spring 2023\\Repro")
+attach(mtcars)
+#Store column names of dataset as a new object
+names = colnames(mtcars)
+
+changend <- table(vs)
+#Help documentation for subset command
+#?subset
+vs0 <- subset(mtcars, vs == 0)
+vs1 <- subset(mtcars, vs == 1)
+#Help documentation for t.test command
+#?t.test
+testres <- t.test(vs0$mpg, vs1$mpg)
+```
+
+This is a short *memo*. Describing a dataset, showing some visuals. Put 2 spaces at end of line for output to go to next line.  
+
+Load system dataset "mtcars". Column names of dataset included below.    
+**`r colnames(mtcars)` **
+
+
+### Variable Descriptions 
+I am interested in variables for Miles Per Gallong(MPG) and VS. Their variable information is included below.  
+Variable `r names[8]` has the following frequency counts.   
+0         1  
+`r changend`  
+
+Variable `r names[1]` has the following measure of mean and standard deviation.  
+**mean = **`r mean(mtcars$mpg)`  
+**standard deviation **= `r sd(mtcars$mpg)`  
+
+### Results
+I am interested in the 'mpg' variable along with the 'vs' variable. I want to display mpg on a scatterplot and t-test results comparing mpg for vs values of 0 and 1. My null hypothesis would be the mpg for both vs groups are equal.  
+
+```{r graph, echo=TRUE, include=TRUE, fig.height=6, fig.width=8, fig.cap="scatterplot mpg"}
+plot(mtcars$wt, mtcars$mpg, ylab="mpg", xlab="weight", main = "Miles per Gallon of Cars by weight of cars in Sample")
+```
+As weight increased trend appears to result in decreased mpg. Below is correlation of mpg and weight relationship.  
+`r cor(mtcars$mpg, mtcars$wt)`.  
+  
+Below are results of T-test mentioned earlier. My null hypothesis would be the mpg for both vs groups are equal.  
+```{r ttest, include=TRUE, echo=TRUE}
+#Commands below to compare avg mpg for vs equal to 0 and equal to 1. 
+vs0 <- subset(mtcars, vs == 0)
+vs1 <- subset(mtcars, vs == 1)
+testres <- t.test(vs0$mpg, vs1$mpg)
+#Print t.test results
+testres
+```
+  
+Above uses code chunk to show code used to create results. Also could do inline code just to show numbers. Numbers printed are *t statistic* and corresponding *p-value*. Indexing an object by its elements. Before I had referenced them by name. I could also reference by name if I wanted to by doing the following. `r c(testres$statistic, testres$p.value)`  
+
+`r testres[c(1, 3)]`  
+
+## Conclusion  
+Based on such a low p-value I reject the null hypothesis. The data does not suggest that vs equal to 0 has the same mpg as vs equal to 1. vs equal to 1 has a much larger average mpg than vs equal to 0.  
+
+Following links have good reference information:  
+[Rmarkdown Webiste](https://rmarkdown.rstudio.com/) - tutorial rmarkdown  
+[Rmarkdown cheatsheet](https://rstudio.com/wp-content/uploads/2016/03/rmarkdown-cheatsheet-2.0.pdf) - cheatsheet 
+
+
+
