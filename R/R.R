@@ -80,7 +80,7 @@ m3 <- lm(mpg ~ hp + drat, mtcars)
 
 stargazer(m1, m2, m3,
           type = "html",
-          out = "output/reg1.html",
+          out = "reg1.html",
           digits = 1,
           header = FALSE,
           title= "Regression Results",
