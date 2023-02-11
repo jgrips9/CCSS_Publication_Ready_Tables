@@ -7,7 +7,7 @@ graph export scatter.pdf, replace
 
 *Create summary table. Then export dataset as excel
 collapse (mean) mean_mpg = mpg mean_price = price (sd) sd_mpg = mpg sd_price = price, by(foreign)
-export excel using "Descriptives_Stata.xlsx", first(var)
+export excel using "Descriptives_Stata.xlsx", first(var) replace
 
 
 *Through the use of a package. Specific packages created to export results nicely. 
