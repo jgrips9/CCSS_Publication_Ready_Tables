@@ -7,7 +7,7 @@ graph export scatter.pdf, replace
 
 *Create summary table. Then export dataset as excel
 collapse (mean) mean_mpg = mpg mean_price = price (sd) sd_mpg = mpg sd_price = price, by(foreign)
-export excel using "Descriptives_Stata.xlsx", first
+export excel using "Descriptives_Stata.xlsx", first(var)
 
 
 *Through the use of a package. Specific packages created to export results nicely. 
@@ -102,6 +102,6 @@ recode studytime (min/10 = 1 "10 or less months") ///
 (31/max = 4 "31 or more months") ///
 , gen(stime)
 la var stime "To died or exp. end"
-tabout stime died using "./output/table1.txt", ///
+tabout stime died using "table1.txt", ///
 cells(freq col cum) format(0 1) clab(No. Col_% Cum_%) ///
 replace
