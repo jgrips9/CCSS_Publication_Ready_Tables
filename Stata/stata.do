@@ -7,7 +7,7 @@ graph export scatter.pdf, replace
 
 *Create summary table. Then export dataset as excel
 collapse (mean) mean_mpg = mpg mean_price = price (sd) sd_mpg = mpg sd_price = price, by(foreign)
-export excel using "../output/Descriptives_Stata.xlsx", first
+export excel using "Descriptives_Stata.xlsx", first
 
 
 *Through the use of a package. Specific packages created to export results nicely. 
@@ -22,7 +22,7 @@ reg mpg weight foreign
 esttab, se
 
 *export word file. rtf is file that can be opened in word. 
-esttab using "../output/regression.rtf", replace eform z
+esttab using "regression.rtf", replace eform z
 
 
 reg mpg foreign
@@ -34,12 +34,12 @@ est sto m3
 
 esttab m1 m2 m3
 
-esttab m1 m2 m3 using "../output/multiple reg.rtf", label nonumber title("Models of MPG") mtitle("Model 1" "Model 2" "Model 3") p star(+ 0.1 * 0.05 ** 0.01) replace
+esttab m1 m2 m3 using "multiple reg.rtf", label nonumber title("Models of MPG") mtitle("Model 1" "Model 2" "Model 3") p star(+ 0.1 * 0.05 ** 0.01) replace
 
 *Summary tables
 estpost sum price foreign mpg
 
-esttab using "../output/table.rtf", modelwidth(10 20) cell((mean(label(Mean)) sd(par label(Standard Deviation)))) label nomtitle nonumber replace
+esttab using "table.rtf", modelwidth(10 20) cell((mean(label(Mean)) sd(par label(Standard Deviation)))) label nomtitle nonumber replace
 
 
 
@@ -85,7 +85,7 @@ rename foreign Origin
 putpdf table tbl1 = data("Origin Total Average Max Min"), varnames  ///
         border(start, nil) border(insideV, nil) border(end, nil)
 
-putpdf save "../output/myreport.pdf", replace
+putpdf save "myreport.pdf", replace
 timer off 1
 timer list
 
