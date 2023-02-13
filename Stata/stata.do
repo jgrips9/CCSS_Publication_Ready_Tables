@@ -11,7 +11,7 @@ export excel using "Descriptives_Stata.xlsx", first(var) replace
 
 
 *Through the use of a package. Specific packages created to export results nicely. 
-*ssc install estout, replace
+ssc install estout, replace
 
 
 
@@ -90,7 +90,7 @@ timer off 1
 timer list
 
 *using tabout command
-*ssc install tabout
+ssc install tabout, replace
 *Other. Using tabout feature
 sysuse cancer, clear
 la var died "Patient died"
