@@ -11,7 +11,7 @@ output:
 ## Introdouction
 ```{r preparations, include=FALSE}
 #Easier reference variable names in mtcars dataset
-library(glue, lib.loc = "U:\\Documents\\Workshops Spring 2023\\Repro")
+library(glue)
 attach(mtcars)
 #Store column names of dataset as a new object
 names = colnames(mtcars)
