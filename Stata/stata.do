@@ -89,6 +89,72 @@ putpdf save "myreport.pdf", replace
 timer off 1
 timer list
 
+*putexcel command
+*load system dataset
+sysuse auto, clear
+
+*perfrom command on 1 variable
+ci means price
+
+*create excel worksheet to export to
+putexcel set "results_exp", sheet(res)
+
+putexcel (A1) = ("OBS") (B1) = ("Mean") (C1) = ("standard Error") (D1) = ("Lower Bound") (E1) = ("Upper Bound") (F1) = ("Confidence Level")
+putexcel (A2) = rscalars, colwise
+*Below method to export each individual element to excel. 
+putexcel set "results_exp1", sheet(res)
+*names used below gotten from following command
+return list
+*Headings to excel columns
+putexcel (A1) = ("OBS")
+putexcel (B1) = ("Mean")
+putexcel (C1) = ("Lower Bound")
+putexcel (D1) = ("Upper Bound")
+*excel data
+putexcel (A2) = (r(N))
+putexcel (B2) = (r(mean))
+putexcel (C2) = (r(lb))
+putexcel (D2) = (r(ub))
+
+putexcel (A5) = ("OBS") (B5) = ("Mean") (C5) = ("Standard Error") (D5) = ("Lower Bound") (E5) = ("Upper Bound") (F5) = ("Confidence Level")
+*nkow export ci_means for mpg variable.
+ci means mpg
+putexcel (A6) = rscalars, colwise
+
+*next for length variable, you get it
+putexcel (A8) = ("OBS") (B8) = ("Mean") (C8) = ("Standard Error")(D8) = ("Lower Bound") (E8) = ("Upper Bound") (F8) = ("Confidence Level")
+ci means length
+putexcel (A9) = rscalars, colwise
+
+
+*Putexcel command. Performed in loop. 
+*load system dataset
+sysuse auto, clear
+
+*variable list macro
+local vlist price mpg trunk weight length turn displacement headroom
+*Excel cells organization macro.
+local exnum = 2
+
+*Setup excel sheet and file names along with headings. Same headings all variables.
+*Could alter the format a bit.
+putexcel set "results_exp2", sheet(res)
+putexcel (A1) = ("OBS") (B1) = ("Mean") (C1) = ("standard Error") (D1) = ("Lower Bound") (E1) = ("Upper Bound") (F1) = ("Confidence Level")
+
+foreach var of varlist `vlist' {
+*perform cimean of variables in order of macro: price mpg trunk weight length turn displacement headroom
+ci means `var'
+*Place variable name in own row, bolded text.
+putexcel (A`exnum') = "`var'", bold
+*Increase organize macro to go to next row in excel.
+local exnum = `exnum' + 1
+*Place measures of ci mean into excel
+putexcel (A`exnum') = rscalars, colwise
+*2 new rows when switching to new variable.
+local exnum = `exnum' + 2
+}
+
+
 *using tabout command
 ssc install tabout, replace
 *Other. Using tabout feature
@@ -105,3 +171,24 @@ la var stime "To died or exp. end"
 tabout stime died using "table1.txt", ///
 cells(freq col cum) format(0 1) clab(No. Col_% Cum_%) ///
 replace
+
+*outreg2 package. 
+ssc install outreg2
+sysuse auto,clear
+regress mpg foreign weight headroom trunk length turn displacement
+
+est store Full
+regress mpg foreign weight headroom
+
+est store Restricted1
+regress mpg foreign weight
+
+    est store Restricted2
+    outreg2 [Full Restricted1 Restricted2] using myfile, replace see
+
+    outreg2 will take the stored estimates as wildcards (*). Try this:
+
+    outreg2 [*] using myfile, see replace
+    outreg2 [R*] using myfile, see replace
+
+    outreg2 foreign weight [*] using myfile, see replace
