@@ -106,3 +106,64 @@ stargazer(linear.1, linear.2, logit.model,header=FALSE,
           column.labels   = c("Good", "Better","Best"),
           column.separate = c(1,1, 1)
 )
+
+#sjPlot
+#helpful link below.
+#https://yuzar-blog.netlify.app/posts/2022-08-01-sjplot/
+
+install.packages("sjPlot")
+install.packages("lattice")
+install.packages("nlme")
+library(lattice)
+library(nlme)
+install.packages("tidyverse")
+library(tidyverse)
+library(sjPlot)
+install.packages("gridExtra")
+library(gridExtra)
+install.packages("RColorBrewer")
+library(RColorBrewer)
+
+view_df(mtcars, show.frq = T, show.prc = T, show.na = T)
+mtcars %>%
+  plot_frq(am)
+
+p <- mtcars %>% 
+  group_by(vs) %>% 
+  plot_frq(am) %>%
+  plot_grid()
+p
+
+plot_grpfrq(
+  var.cnt = mtcars$vs, 
+  var.grp = mtcars$am)
+
+plot_xtab(
+  x   = mtcars$vs, 
+  grp = mtcars$am, 
+  margin  = "row", 
+  bar.pos = "stack",
+  show.summary = TRUE,
+  coord.flip   = TRUE)
+
+tab_xtab(
+  var.row = mtcars$vs, 
+  var.col = mtcars$am, 
+  show.row.prc = T
+)
+
+mtcars %>%
+  group_by(am) %>%
+  plot_frq(mpg, type="histogram", show.mean = TRUE, normal.curve = TRUE) %>% 
+  plot_grid()
+
+m <- lm(mpg ~ as.factor(gear), data = mtcars)
+plot_model(m, type = "pred")
+
+plot_model(m, show.values = TRUE, width = 0.1)+
+  ylab("Increase in salary as compared to no education")
+
+tab_model(m, 
+          show.reflvl = T, 
+          show.intercept = F, 
+          p.style = "numeric_stars")
